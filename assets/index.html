@@ -1,0 +1,295 @@
+<html>
+    <head>
+        <title>Calendar HTML CSS Javascript </title>
+        <link rel="stylesheet" href="MFTstyle.css">
+        <link rel="stylesheet" href="pikaday.css">
+        <script src="MFTcalendar.js"></script>
+    </head>
+
+    <body onload="fillCalendar();">
+
+        <header>
+            <h2 id="month"></h2>
+            <h2 id="year"></h2>
+            <button id="prev" onclick="prev();">&lt;&lt;&lt;</button>
+            <button id="next" onclick="next();">&gt;&gt;&gt;</button>
+        </header>
+    
+        <nav id="days">
+            <div class="dayname">week</div>
+            <div class="dayname red">Sunday</div>
+            <div class="dayname">Monday</div>
+            <div class="dayname">Tuesday</div>
+            <div class="dayname">Wednesday</div>
+            <div class="dayname">Thursday</div>
+            <div class="dayname">Friday</div>
+            <div class="dayname">Saturday</div>
+        </nav>
+    
+        <nav id="abr">
+            <div class="dayname red">Sun</div>
+            <div class="dayname">Mon</div>
+            <div class="dayname">Tue</div>
+            <div class="dayname">Wed</div>
+            <div class="dayname">Thu</div>
+            <div class="dayname">Fri</div>
+            <div class="dayname">Sat</div>
+        </nav>
+
+        <main></main>
+
+        <footer>
+            <div id="interactionsBar" class="interactionsBar">
+                <div>
+                    <button id="new" onclick="interactions(this.id);">New</button>
+                </div>
+                <div>
+                    <button id="edit" onclick="interactions(this.id);">Edit</button>
+                </div>
+                <div>
+                    <button id="delete" onclick="interactions('Delete');">Delete</button>
+                </div>
+            </div>
+        </footer>
+
+        <!-- The overall Modal wrapper-->
+        <div id="myModal" class="modal">
+            <!-- Modal content wrapper -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2 id='headerTxt'>Modal Header</h2>
+                </div>
+                <div class="modal-body">
+                    <form class="new">
+                        <label for="businessName">(business) name   :</label>
+                        <input type="text" name="businessName" placeholder="e.g. BND">
+                        <label for="url">link    :</label>
+                        <input type="URL" name="url" placeholder="e.g. paste in a link">
+                        <label for="amount">amount  :</label>
+                        <input type="number" name="amount" placeholder="98.61">
+                        <label for="description">description   :</label>
+                        <textarea name="description" placeholder="e.g. student loan"></textarea>
+                        <input type="submit" value="Submit">
+                        <input type="reset" value="Reset">
+                        <p>Repeat interval  :</p>
+                        <div class="showScheduleInterval">
+                            <span id="interval">Mouse over me to PICK AN INTERVAL !</span>
+                            <div class="scheduleInterval">
+                                <option value="Daily" onclick="intervalSelected(this.value);">Daily</option>
+                                <option value="Weekly" onclick="intervalSelected(this.value);">Weekly</option>
+                                <option value="Monthly" onclick="intervalSelected(this.value);">Monthly</option>
+                                <option value="Yearly" onclick="intervalSelected(this.value);">Yearly</option>
+                            </div>
+                        </div>
+                        <div class="dailyContainer">
+                           <input type="radio" id="dailyFreq" name="dailyFreq" value="nDays">
+                           <label for="dailyFreq">Every</label>
+                           <select id="nthDay">
+                               <option value="1">1</option>
+                               <option value="2">2</option>
+                               <option value="3">3</option>
+                               <option value="4">4</option>
+                               <option value="5">5</option>
+                               <option value="6">6</option>
+                            </select>
+                           <label>day(s)</label>
+                           <input type="radio" id="weekdays" name="dailyFreq" value="weekdays">
+                           <label for="weekdays">Every weekday</label>
+                           <input type="radio" id="weekends" name="dailyFreq" value="weekends">
+                           <label for="weekends">Every weekend</label>
+                        </div>
+                        <div class="weeklyContainer">
+                           <label>Every</label>
+                           <select id="nthWeek">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                           </select>
+                           <label>week(s)</label>
+                           <label>on</label>
+                           <label><input type="checkbox" name="weekdays[]" value="sunday" />Sunday</label>
+                           <label><input type="checkbox" name="weekdays[]" value="monday" />Monday</label>
+                           <label><input type="checkbox" name="weekdays[]" value="tuesday" />Tuesday</label>
+                           <label><input type="checkbox" name="weekdays[]" value="wednesday" />Wednesday</label>
+                           <label><input type="checkbox" name="weekdays[]" value="thursday" />Thursday</label>
+                           <label><input type="checkbox" name="weekdays[]" value="friday" />Friday</label>
+                           <label><input type="checkbox" name="weekdays[]" value="saturday" />Saturday</label>
+                        </div>
+                        <div class="monthlyContainer">
+                           <label>Every</label>
+                           <select id="nthMonth">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                            </select>
+                           <label>month(s)</label>
+                           <input type="radio" id="monthDay" name="monthlyFreq" value="monthday">
+                           <label for="monthDay">On day</label>
+                           <select id="monthDays">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                            </select>
+                            <input type="radio" id="monthDesc" name="monthlyFreq" value="monthdesc">
+                            <label for="monthDesc">On the</label>
+                            <select id="monthDescChoices">
+                                <option value="first">first</option>
+                                <option value="second">second</option>
+                                <option value="third">third</option>
+                                <option value="fourth">fourth</option>
+                                <option value="last">last</option>
+                            </select>
+                            <select id="monthDescDay">
+                                    <option value="sunday">Sunday</option>
+                                    <option value="monday">Monday</option>
+                                    <option value="tuesday">Tuesday</option>
+                                    <option value="wednesday">Wednesday</option>
+                                    <option value="thursday">Thursday</option>
+                                    <option value="friday">Friday</option>
+                                    <option value="saturday">Saturday</option>
+                            </select>
+                        </div>
+                        <div class="yearlyContainer">
+                           <label>during the Month of</label>
+                           <select id="yearlyMonth">
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                           </select>
+                           <input type="radio" id="yearlyMonthDay" name="yearlymonth" value="yearlymonthday">
+                           <label for="yearlyMonthDay">On day</label>
+                           <select id="yearlyMonthDays">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                            </select>
+                           <input type="radio" id="yearlyMonthDesc" name="monthlyFreq" value="yearlymonthdesc">
+                           <label for="monthDesc">On the</label>
+                          <select id="yearlyMonthDescChoices">
+                                <option value="first">first</option>
+                                <option value="second">second</option>
+                                <option value="third">third</option>
+                                <option value="fourth">fourth</option>
+                                <option value="last">last</option>
+                            </select>
+                            <select id="yearlyMonthDescDay">
+                                    <option value="sunday">Sunday</option>
+                                    <option value="monday">Monday</option>
+                                    <option value="tuesday">Tuesday</option>
+                                    <option value="wednesday">Wednesday</option>
+                                    <option value="thursday">Thursday</option>
+                                    <option value="friday">Friday</option>
+                                    <option value="saturday">Saturday</option>
+                            </select>
+                        </div>
+                        <input type="text" id="datepicker" placeholder="Pick a start date please">
+                    </form>
+
+                    <div class="edit">
+
+                    </div>
+
+                    <div class="delete">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <h2>Click here to SAVE</h2>
+                </div>
+            </div>
+        </div>
+
+        <script src="pikaday.js"></script>
+        <script>
+            var picker = new Pikaday(
+            {
+                field: document.getElementById('datepicker'),
+                showWeekNumber: true,
+                firstDay: 0,
+                minDate: new Date(),
+                maxDate: new Date(2020, 12, 31),
+                yearRange: [2015,2020],
+                showDaysInNextAndPreviousMonths: true,
+                enableSelectionDaysInNextAndPreviousMonths: true
+            });
+        </script>
+
+        <div id="statusBanner" onload=""></div>
+        <script src="socketScript.js"></script>
+    </body>
+</html>

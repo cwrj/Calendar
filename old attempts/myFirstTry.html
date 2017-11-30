@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>Calendar HTML CSS Javascript </title>
+        <link rel="stylesheet" href="MFTstyle.css">
+        <script src="MFTcalendar.js"></script>
+    </head>
+
+    <body onload="fillCalendar();">
+
+        <header>
+            <h1 id="year"></h1>
+            <h2 id="month"></h2>
+            <button id="prev" onclick="prev();">&lt;&lt;&lt;</button>
+            <button id="next" onclick="next();">&gt;&gt;&gt;</button>
+        </header>
+    
+        <nav id="days">
+            <div class="dayname">week</div>
+            <div class="dayname red">Sunday</div>
+            <div class="dayname">Monday</div>
+            <div class="dayname">Tuesday</div>
+            <div class="dayname">Wednesday</div>
+            <div class="dayname">Thursday</div>
+            <div class="dayname">Friday</div>
+            <div class="dayname">Saturday</div>
+        </nav>
+    
+        <nav id="abr">
+            <div class="dayname red">Sun</div>
+            <div class="dayname">Mon</div>
+            <div class="dayname">Tue</div>
+            <div class="dayname">Wed</div>
+            <div class="dayname">Thu</div>
+            <div class="dayname">Fri</div>
+            <div class="dayname">Sat</div>
+        </nav>
+
+        <main></main>
+    </body>
+</html>
