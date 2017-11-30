@@ -1,5 +1,5 @@
 /*
-    general structure of socket script file :
+    general structure of socket script file : SUBJECT TO CHANGE !!!!!
 
         *** on page load ***
         1. show banner status element
